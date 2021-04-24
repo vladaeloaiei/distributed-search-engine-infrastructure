@@ -2,54 +2,20 @@ version: '3.9'
 
 services:
 
-  mongodb-primary:
-    image: bitnami/mongodb:latest
-    hostname: data-lake
+  data-lake:
+    image: mongo:latest
     deploy:
       mode: global
     ports:
       - '27017:27017'
     environment:
-      MONGODB_DATABASE: 'data-lake'
-      MONGODB_USERNAME: 'user'
-      MONGODB_PASSWORD: 'password'
-      MONGODB_ADVERTISED_HOSTNAME: 'mongodb-primary'
-      MONGODB_ROOT_PASSWORD: 'password'
-      MONGODB_REPLICA_SET_MODE: 'primary'
-      MONGODB_REPLICA_SET_KEY: 'replicaset0'
+      MONGO_INITDB_DATABASE: 'data-lake'
+      MONGO_INITDB_ROOT_USERNAME: 'root'
+      MONGO_INITDB_ROOT_PASSWORD: 'password'
     networks:
       data-lake-network:
-
-  mongodb-secondary:
-    image: bitnami/mongodb:latest
-    deploy:
-      mode: replicated
-      replicas: 1
-    depends_on:
-      - mongodb-primary
-    environment:
-      MONGODB_ADVERTISED_HOSTNAME: 'mongodb-secondary'
-      MONGODB_INITIAL_PRIMARY_HOST: 'mongodb-primary'
-      MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD: 'password'
-      MONGODB_REPLICA_SET_MODE: 'secondary'
-      MONGODB_REPLICA_SET_KEY: 'replicaset0'
-    networks:
-      data-lake-network:
-
-  mongodb-arbiter:
-    image: bitnami/mongodb:latest
-    deploy:
-      mode: global
-    depends_on:
-      - mongodb-primary
-    environment:
-      MONGODB_ADVERTISED_HOSTNAME: 'mongodb-arbiter'
-      MONGODB_INITIAL_PRIMARY_HOST: 'mongodb-primary'
-      MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD: 'password'
-      MONGODB_REPLICA_SET_MODE: 'arbiter'
-      MONGODB_REPLICA_SET_KEY: 'replicaset0'
-    networks:
-      data-lake-network:
+    volumes:
+      - ../config/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 
 networks:
   data-lake-network:
