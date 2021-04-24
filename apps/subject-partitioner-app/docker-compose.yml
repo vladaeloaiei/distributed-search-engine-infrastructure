@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+
+  subject-partitioner:
+    image: subject-partitioner:latest
+    hostname: subject-partitioner
+    deploy:
+      mode: global
+    environment:
+      SPRING_PROFILES_ACTIVE: 'demo'
+    networks:
+      - search-engine-network
+      - data-lake-network
+    volumes:
+      - ../../input/category_keywords.txt:/input/category_keywords.txt:ro
+
+networks:
+  search-engine-network:
+    external: true
+  data-lake-network:
+    external: true
