@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+
+  spark-master:
+    image: bde2020/spark-master
+    deploy:
+      mode: global
+    ports:
+      - '8080:8080'
+      - '7077:7077'
+    networks:
+      data-lake-network:
+
+  spark-worker:
+    image: bde2020/spark-worker
+    deploy:
+      mode: replicated
+      replicas: 1
+    depends_on:
+      - spark-master
+    environment:
+      - 'SPARK_MASTER=spark://spark-master:7077'
+    networks:
+      data-lake-network:
+
+  spark-submitter:
+    image: index-processing-spark-submitter
+    deploy:
+      mode: global
+    depends_on:
+      - spark-master
+      - spark-worker
+    environment:
+      - 'SPARK_MASTER=spark://spark-master:7077'
+      - 'ENABLE_INIT_DAEMON=false'
+    ports:
+      - '4040:4040'
+    networks:
+      data-lake-network:
+
+networks:
+  data-lake-network:
+    external: true

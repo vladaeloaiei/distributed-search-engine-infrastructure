@@ -13,7 +13,7 @@ services:
       - search-engine-network
       - data-lake-network
     volumes:
-      - ../../input/category_keywords.txt:/input/category_keywords.txt:ro
+      - ../input/category_keywords.txt:/input/category_keywords.txt:ro
 
 networks:
   search-engine-network:

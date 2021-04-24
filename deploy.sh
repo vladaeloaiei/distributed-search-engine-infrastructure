@@ -1,6 +1,25 @@
 #!/usr/bin/env sh
 
-cd scripts
-./deploy_overlay_networks.sh
-./deploy_stacks.sh
-./deploy_apps.sh
+if [ $# -eq 0 ]; then
+  echo "Deploying the entire infrastructure"
+
+  # overlay networks
+  ./scripts/overlay-networks/deploy.sh
+
+  # stacks
+  ./scripts/data-lake/deploy.sh
+  ./scripts/web-crawler/deploy.sh
+  ./scripts/search-engine/deploy.sh
+  ./scripts/search-engine-ui/deploy.sh
+
+  # apps
+  ./scripts/index-processing/deploy.sh
+  ./scripts/subject-partitioner/deploy.sh
+
+else
+  echo "Deploying $@"
+
+  for res in "$@"; do
+    ./scripts/${res}/deploy.sh
+  done
+fi
