@@ -43,6 +43,7 @@ services:
 
   domain-explorer:
     image: domain-explorer:latest
+    hostname: domain-explorer
     deploy:
       replicas: 1
     depends_on:

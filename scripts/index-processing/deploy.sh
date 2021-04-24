@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-echo "Deploy index processing application.."
+echo "Deploying index processing application.."
 docker-compose -f ./apps/index-processing-app.yml -p index-processing-app up -d

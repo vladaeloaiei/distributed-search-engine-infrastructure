@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-echo "Deploying data lake stack.."
+echo "Removing data lake stack.."
 docker stack rm data-lake-stack
