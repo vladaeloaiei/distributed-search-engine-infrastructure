@@ -4,6 +4,7 @@ services:
 
   spark-master:
     image: bde2020/spark-master
+    hostname: spark-master
     deploy:
       mode: global
     ports:
@@ -14,6 +15,7 @@ services:
 
   spark-worker:
     image: bde2020/spark-worker
+    hostname: spark-worker
     deploy:
       mode: replicated
       replicas: 1
@@ -26,6 +28,7 @@ services:
 
   spark-submitter:
     image: index-processing-spark-submitter
+    hostname: spark-submitter
     deploy:
       mode: global
     depends_on:

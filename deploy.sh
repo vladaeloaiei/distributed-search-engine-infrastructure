@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 
 if [ $# -eq 0 ]; then
+  echo "No argument provided"
+elif [ $# -eq 1 ] && [ "$1" == "all" ]; then
   echo "Deploying the entire infrastructure"
 
   # overlay networks

@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 
 if [ $# -eq 0 ]; then
+  echo "No argument provided"
+elif [ $# -eq 1 ] && [ "$1" == "all" ]; then
   echo "Cleaning the entire infrastructure"
 
   # apps
@@ -23,7 +25,3 @@ else
   done
 fi
 
-# cd scripts
-# ./clean_apps.sh
-# ./clean_stacks.sh
-# ./clean_overlay_networks.sh
