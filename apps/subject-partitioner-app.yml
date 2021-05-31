@@ -5,8 +5,6 @@ services:
   subject-partitioner:
     image: subject-partitioner:latest
     hostname: subject-partitioner
-    deploy:
-      mode: global
     environment:
       SPRING_PROFILES_ACTIVE: 'demo'
     networks:

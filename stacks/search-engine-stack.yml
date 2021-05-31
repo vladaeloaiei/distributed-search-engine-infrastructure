@@ -16,7 +16,7 @@ services:
       - search-engine-network
       - data-lake-network
 
-  category-handler:
+  web-details-provider-service:
     image: category-handler:latest
     hostname: category-handler
     deploy:

@@ -6,7 +6,7 @@ services:
     image: domain-feeder:latest
     hostname: domain-feeder
     deploy:
-      mode: global
+      replicas: 1
     environment:
       SPRING_PROFILES_ACTIVE: 'demo'
     networks:
@@ -14,27 +14,27 @@ services:
       data-lake-network:
     volumes:
       - ../input/allowed_domains.txt:/input/allowed_domains.txt:ro
-      - ../input/startup_domains.txt:/input/startup_domains.txt:ro
 
   url-frontier:
     image: url-frontier:latest
     hostname: url-frontier
     deploy:
-      mode: global
+      replicas: 1
+    depends_on:
+      - domain-feeder
     environment:
       SPRING_PROFILES_ACTIVE: 'demo'
     networks:
       web-crawler-network:
       data-lake-network:
     volumes:
-      - ../input/allowed_domains.txt:/input/allowed_domains.txt:ro
       - ../input/startup_urls.txt:/input/startup_urls.txt:ro
 
   document-handler:
     image: document-handler:latest
     hostname: document-handler
     deploy:
-      mode: global
+      replicas: 1
     environment:
       SPRING_PROFILES_ACTIVE: 'demo'
     networks:
@@ -45,9 +45,8 @@ services:
     image: domain-explorer:latest
     hostname: domain-explorer
     deploy:
-      replicas: 1
+      replicas: 4
     depends_on:
-      - domain-feeder
       - url-frontier
       - document-handler
     environment:

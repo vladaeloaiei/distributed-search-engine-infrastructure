@@ -18,9 +18,11 @@ services:
     hostname: spark-worker
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 3
     depends_on:
       - spark-master
+#    ports:
+#      - '8082:8081'
     environment:
       - 'SPARK_MASTER=spark://spark-master:7077'
     networks:
@@ -29,8 +31,6 @@ services:
   spark-submitter:
     image: index-processing-spark-submitter
     hostname: spark-submitter
-    deploy:
-      mode: global
     depends_on:
       - spark-master
       - spark-worker
