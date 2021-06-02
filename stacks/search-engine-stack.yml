@@ -2,25 +2,28 @@ version: '3.9'
 
 services:
 
-  search-engine-service:
-    image: search-engine-service:latest
-    hostname: search-engine-service
+  web-details-provider-service:
+    image: web-details-provider-service:latest
+    hostname: web-details-provider-service
     deploy:
       mode: replicated
       replicas: 1
-    ports:
-      - '10001:10001'
     environment:
       SPRING_PROFILES_ACTIVE: 'demo'
     networks:
       - search-engine-network
       - data-lake-network
 
-  web-details-provider-service:
-    image: category-handler:latest
-    hostname: category-handler
+  search-engine-service:
+    image: search-engine-service:latest
+    hostname: search-engine-service
     deploy:
-      mode: global
+      mode: replicated
+      replicas: 1
+    depends_on:
+      - web-details-provider-service
+    ports:
+      - '10001:10001'
     environment:
       SPRING_PROFILES_ACTIVE: 'demo'
     networks:

@@ -6,7 +6,7 @@ services:
     image: search-engine-ui
     hostname: search-engine-ui
     ports:
-      - '4200:4200'
+      - '4200:80'
     networks:
       - search-engine-ui-network
     deploy:
