@@ -18,7 +18,7 @@ services:
     hostname: spark-worker
     deploy:
       mode: replicated
-      replicas: 3
+      replicas: 4
     depends_on:
       - spark-master
 #    ports:
